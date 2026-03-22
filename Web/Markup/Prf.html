@@ -5,116 +5,113 @@
     <title>First - Профиль</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link rel = "stylesheet" href="../Visual/Prf.css">
+    <link rel="stylesheet" href="../Visual/Prf.css">
 </head>
 <body>
-    <!-- Левая информационная панель -->
-    <aside id = "left_sidebar">
-        <div id = "upper_logo">
-            <img src = "Будущее лого проекта">
+    <!-- Левая панель -->
+    <aside id="left_sidebar">
+        <div id="upper_logo">
+            <img src="Будущее лого проекта" alt="First logo">
         </div>
-        <div id = "left_nav">
-            <nav>
-                <ul>
-                    <li>
-                        <i class = "fas fa-server"></i>
-                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Сервера</a>
-                    </li>
-                    <li>
-                        <i class = "fas fa-wand-magic-sparkles"></i>
-                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Скинченджер</a>
-                    </li>
-                    <li>
-                        <i class = "fas fa-shield-halved"></i>
-                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Клан</a>
-                    </li>
-                    <li>
-                        <i class = "fas fa-users"></i>
-                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Друзья</a>
-                    </li>
-                    <li>
-                        <i class = "fas fa-gift"></i>
-                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Кейсы</a>
-                    </li>
-                    <li>
-                        <i class = "fas fa-store"></i>
-                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Магазин</a>
-                    </li>
-                    <li>
-                        <i class = "fas fa-trophy"></i>
-                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Рейтинг</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-        <div id = "left_sidebar_user">
-            <div id = "left_sidebar_user_avatar" src = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ"></div>
-            <span id = "left_sidebar_user_nickname"></span>
-            <span id = "left_sidebar_user_level"></span>
+        <nav id="left_nav">
+            <ul>
+                <li><i class="fas fa-server"></i><a href="#">Сервера</a></li>
+                <li><i class="fas fa-wand-magic-sparkles"></i><a href="#">Скинченджер</a></li>
+                <li><i class="fas fa-shield-halved"></i><a href="#">Клан</a></li>
+                <li><i class="fas fa-users"></i><a href="#">Друзья</a></li>
+                <li><i class="fas fa-gift"></i><a href="#">Кейсы</a></li>
+                <li><i class="fas fa-store"></i><a href="#">Магазин</a></li>
+                <li><i class="fas fa-trophy"></i><a href="#">Рейтинг</a></li>
+            </ul>
+        </nav>
+        <div id="left_sidebar_bottom">
+            <a href="#"><i class="fas fa-cog"></i> Настройки</a>
+            <div id="left_sidebar_user">
+                <img id="left_sidebar_user_avatar" src="#" alt="Аватар">
+                <span id="left_sidebar_user_nickname"></span>
+                <span id="left_sidebar_user_level"></span>
+            </div>
         </div>
     </aside>
-    <!-- Верхняя, центральная и нижняя информационные панели -->
-    <div id = "main_content">
-        <header id = "upper_panel">
-            <span id = "online"></span>
-            <div id = "site_nav_div">
-                <nav>
-                    <ul>
-                        <li>
-                            <label for="game-select">Выберите игру:</label>
-                            <select id="game-select" name="required_game">
-                            <option value="cs2">CS2</option>
-                            <option value="cssource">CS:Source</option>
-                            <option value="csgo">CS:GO</option>
-                            <option value="cs1.6">CS 1.6</option>
-                            </select>
-                        </li>
-                    </ul>
-                </nav>
+
+    <!-- Верхняя, центральная и нижняя панели -->
+    <div id="main_content">
+        <header id="upper_panel">
+            <div id="upper_panel_left">
+                <span id="page_title">Профиль</span>
             </div>
-            <span id = "notification"></span>
-            <span id = "balance"></span>
+            <div id="upper_panel_right">
+                <div id="online_counter">
+                    <span id="online_dot"></span>
+                    <span id="online"></span>
+                    <span>онлайн</span>
+                </div>
+                <div id="game_select_wrap">
+                    <span id="game_dot"></span>
+                    <select id="game_select">
+                        <option value="cs2">CS2</option>
+                        <option value="csgo">CS:GO</option>
+                        <option value="cssource">CS:Source</option>
+                        <option value="cs16">CS 1.6</option>
+                    </select>
+                </div>
+                <button id="chat_btn">
+                    <i class="fas fa-comment-dots"></i>
+                    <span id="chat_badge"></span>
+                </button>
+                <div id="notification_wrap">
+                    <i class="fas fa-bell"></i>
+                    <span id="notification"></span>
+                </div>
+                <div id="balance_wrap">
+                    <i class="fas fa-gem"></i>
+                    <span id="balance"></span>
+                </div>
+            </div>
         </header>
-        <section id = "player_card">
-            <div id = "avatar">
-                <img src = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ, аватарка пользователя">
+
+        <section id="player_card">
+            <div id="player_card_inner">
+                <div id="avatar">
+                    <img id="avatar_img" src="#" alt="Аватар игрока">
+                </div>
+                <div id="player_info">
+                    <div id="nickname"></div>
+                    <div id="tags"></div>
+                    <div id="statistic"></div>
+                </div>
             </div>
-            <div id = "nickname"></div>
-            <div id = "tags"></div>
-            <div id = "statistic"></div>
-            <div id = "progress_bar"></div>
+            <div id="progress_bar">
+                <div class="progress_info">
+                    <span class="progress_level"></span>
+                    <span class="progress_xp"></span>
+                </div>
+                <div id="progress_track">
+                    <div id="progress_fill"></div>
+                </div>
+            </div>
         </section>
-        <div id = "lower_panel">
-            <ul>
-                <li>
-                    <button data-tab="stats"><i class="fas fa-chart-bar"></i> Статистика</button>
-                </li>
-                <li>
-                    <button data-tab="friends"><i class="fas fa-users"></i> Друзья</button>
-                </li>
-                <li>
-                    <button data-tab="skills">Навыки</button>
-                </li>
-                <li>
-                    <button data-tab="skinchanger">Скинченджер</button>
-                </li>
-                <li>
-                    <button data-tab="activity">Активность</button>
-                </li>
-                <li>
-                    <button data-tab="clan">Клан</button>
-                </li>
-                <div id="tab_stats" data-tab-content="stats"></div>
-                <div id="tab_friends" data-tab-content="friends"></div>
-                <div id="tab_skills" data-tab-content="skills"></div>
-                <div id="tab_skinchanger" data-tab-content="skinchanger"></div>
-                <div id="tab_activity" data-tab-content="activity"></div>
-                <div id="tab_clan" data-tab-content="clan"></div>
+
+        <div id="lower_panel">
+            <ul id="tab_buttons">
+                <li><button data-tab="stats"><i class="fas fa-chart-bar"></i> Статистика</button></li>
+                <li><button data-tab="friends"><i class="fas fa-users"></i> Друзья</button></li>
+                <li><button data-tab="skills"><i class="fas fa-crosshairs"></i> Навыки</button></li>
+                <li><button data-tab="skinchanger"><i class="fas fa-wand-magic-sparkles"></i> Скинченджер</button></li>
+                <li><button data-tab="activity"><i class="fas fa-chart-area"></i> Активность</button></li>
+                <li><button data-tab="clan"><i class="fas fa-shield-halved"></i> Клан</button></li>
             </ul>
+            <div id="tab_stats" data-tab-content="stats"></div>
+            <div id="tab_friends" data-tab-content="friends"></div>
+            <div id="tab_skills" data-tab-content="skills"></div>
+            <div id="tab_skinchanger" data-tab-content="skinchanger"></div>
+            <div id="tab_activity" data-tab-content="activity"></div>
+            <div id="tab_clan" data-tab-content="clan"></div>
         </div>
     </div>
-    <!-- Скрытая чат-панель -->
-    <div id = "chat_panel">
-    </div>
+
+    <!-- Чат-панель -->
+    <div id="chat_panel"></div>
+    <script src="../Logic/Prf.js"></script>
 </body>
 </html>
