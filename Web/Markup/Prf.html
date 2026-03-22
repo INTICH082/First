@@ -2,36 +2,119 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Профиль</title>
+    <title>First - Профиль</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link rel = "stylesheet" href="../Visual/Prf.css">
 </head>
 <body>
-    <div id = "site_nav_div">
-        <nav id = "site_nav_nav">
+    <!-- Левая информационная панель -->
+    <aside id = "left_sidebar">
+        <div id = "upper_logo">
+            <img src = "Будущее лого проекта">
+        </div>
+        <div id = "left_nav">
+            <nav>
+                <ul>
+                    <li>
+                        <i class = "fas fa-server"></i>
+                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Сервера</a>
+                    </li>
+                    <li>
+                        <i class = "fas fa-wand-magic-sparkles"></i>
+                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Скинченджер</a>
+                    </li>
+                    <li>
+                        <i class = "fas fa-shield-halved"></i>
+                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Клан</a>
+                    </li>
+                    <li>
+                        <i class = "fas fa-users"></i>
+                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Друзья</a>
+                    </li>
+                    <li>
+                        <i class = "fas fa-gift"></i>
+                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Кейсы</a>
+                    </li>
+                    <li>
+                        <i class = "fas fa-store"></i>
+                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Магазин</a>
+                    </li>
+                    <li>
+                        <i class = "fas fa-trophy"></i>
+                        <a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Рейтинг</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div id = "left_sidebar_user">
+            <div id = "left_sidebar_user_avatar" src = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ"></div>
+            <span id = "left_sidebar_user_nickname"></span>
+            <span id = "left_sidebar_user_level"></span>
+        </div>
+    </aside>
+    <!-- Верхняя, центральная и нижняя информационные панели -->
+    <div id = "main_content">
+        <header id = "upper_panel">
+            <span id = "online"></span>
+            <div id = "site_nav_div">
+                <nav>
+                    <ul>
+                        <li>
+                            <label for="game-select">Выберите игру:</label>
+                            <select id="game-select" name="required_game">
+                            <option value="cs2">CS2</option>
+                            <option value="cssource">CS:Source</option>
+                            <option value="csgo">CS:GO</option>
+                            <option value="cs1.6">CS 1.6</option>
+                            </select>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <span id = "notification"></span>
+            <span id = "balance"></span>
+        </header>
+        <section id = "player_card">
+            <div id = "avatar">
+                <img src = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ, аватарка пользователя">
+            </div>
+            <div id = "nickname"></div>
+            <div id = "tags"></div>
+            <div id = "statistic"></div>
+            <div id = "progress_bar"></div>
+        </section>
+        <div id = "lower_panel">
             <ul>
                 <li>
-                    <label for="game-select">Выберите игру:</label>
-                    <select id="game-select" name="required_game">
-                    <option value="cs2">CS2</option>
-                    <option value="cssource">CS:Source</option>
-                    <option value="csgo">CS:GO</option>
-                    <option value="cs1.6">CS 1.6</option>
-                    </select>
+                    <button data-tab="stats"><i class="fas fa-chart-bar"></i> Статистика</button>
                 </li>
+                <li>
+                    <button data-tab="friends"><i class="fas fa-users"></i> Друзья</button>
+                </li>
+                <li>
+                    <button data-tab="skills">Навыки</button>
+                </li>
+                <li>
+                    <button data-tab="skinchanger">Скинченджер</button>
+                </li>
+                <li>
+                    <button data-tab="activity">Активность</button>
+                </li>
+                <li>
+                    <button data-tab="clan">Клан</button>
+                </li>
+                <div id="tab_stats" data-tab-content="stats"></div>
+                <div id="tab_friends" data-tab-content="friends"></div>
+                <div id="tab_skills" data-tab-content="skills"></div>
+                <div id="tab_skinchanger" data-tab-content="skinchanger"></div>
+                <div id="tab_activity" data-tab-content="activity"></div>
+                <div id="tab_clan" data-tab-content="clan"></div>
             </ul>
-        </nav>
+        </div>
     </div>
-    <div>
-        <img src = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">
-    </div>
-    <div id = "profile_nav_div">
-        <nav id = "profile_nav_nav">
-            <ul>
-                <li><a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Статистика</a></li>
-                <li><a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Друзья</a></li>
-                <li><a href = "ИЗМЕНИТЬ ПОТОМ НА ГИППЕРСЫЛКУ">Настройки</a></li>
-            </ul>
-        </nav>
+    <!-- Скрытая чат-панель -->
+    <div id = "chat_panel">
     </div>
 </body>
 </html>
