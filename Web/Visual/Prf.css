@@ -670,3 +670,15 @@ img {
 #chat_panel.open {
     transform: translateX(0);
 }
+
+.tag_chip {
+    display: flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: var(--red-dim);
+    color: var(--red);
+    border: 1px solid var(--red-border);
+}
