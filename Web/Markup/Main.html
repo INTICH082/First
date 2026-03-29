@@ -2,15 +2,92 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Сайт</title>
+    <title>First - Сервера</title>
+    <link rel="stylesheet" href="../Visual/Main.css">
 </head>
 <body>
-    <div>
-        <h1>Как сейчас выглядит сайт</h1>
+    <!-- Левая панель -->
+    <aside id="left_sidebar">
+        <div id="upper_logo">
+            <img src="Будущее лого проекта" alt="First logo">
+        </div>
+        <div id="game_selector">
+            <select>
+                <option value="cs2">CS2</option>
+                <option value="csgo">CS:GO</option>
+                <option value="cssource">CS:S</option>
+                <option value="cs1.6">CS1.6</option>
+            </select>
+        </div>
+        <nav id="left_nav">
+            <ul>
+                <li><i class="fas fa-server"></i><a href="#">Сервера</a></li>
+                <li><i class="fas fa-wand-magic-sparkles"></i><a href="#">Скинченджер</a></li>
+                <li><i class="fas fa-shield-halved"></i><a href="#">Клан</a></li>
+                <li><i class="fas fa-users"></i><a href="#">Друзья</a></li>
+                <li><i class="fas fa-gift"></i><a href="#">Кейсы</a></li>
+                <li><i class="fas fa-store"></i><a href="#">Магазин</a></li>
+                <li><i class="fas fa-trophy"></i><a href="#">Рейтинг</a></li>
+            </ul>
+        </nav>
+        <div id="left_sidebar_bottom">
+            <a href="#"><i class="fas fa-cog"></i> Настройки</a>
+            <div id="left_sidebar_user">
+                <img id="left_sidebar_user_avatar" src="#" alt="Аватар">
+                <span id="left_sidebar_user_nickname"></span>
+                <span id="left_sidebar_user_level"></span>
+            </div>
+        </div>
+    </aside>
+    <!-- Центральное пространство -->
+    <div id="main_content">
+        <header id="upper_panel">
+            <div id="upper_panel_left">
+                <span id="page_title">Профиль</span>
+            </div>
+            <div id="upper_panel_right">
+                <div id="online_counter">
+                    <span id="online_dot"></span>
+                    <span id="online"></span>
+                    <span>онлайн</span>
+                    <div id="online_breakdown">
+                        <div class="breakdown-row" data-game="cs2">
+                            <span>CS2</span>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="breakdown-row" data-game="csgo">
+                            <span>CS:GO</span>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="breakdown-row" data-game="cssource">
+                            <span>CS:Source</span>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="breakdown-row" data-game="cs16">
+                            <span>CS 1.6</span>
+                            <span class="count">0</span>
+                        </div>
+                    </div>
+                </div>
+                <button id="chat_btn">
+                    <i class="fas fa-comment-dots"></i>
+                    <span id="chat_badge"></span>
+                </button>
+                <div id="notification_wrap">
+                    <i class="fas fa-bell"></i>
+                    <span id="notification"></span>
+                </div>
+                <div id="balance_wrap">
+                    <i class="fas fa-gem"></i>
+                    <span id="balance"></span>
+                </div>
+            </div>
+        </header>
+        <div id="server_list">
+        </div>
     </div>
-    <div>
-        <h2><b>First - game service</b></h2>
-        <a href = Prf.html>Ссылка на профиль</a>
-    </div>
+    <!-- Правая панель, чат-панель -->
+    <div id="chat_panel"></div>
+    <script src="../Actions/Main.js"></script>
 </body>
 </html>

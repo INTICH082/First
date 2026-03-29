@@ -11,7 +11,13 @@ const PlayerData = {
     notifications: 0,
     chatUnread: 0,
     tags: [],
-    onlineCount: 0
+    onlineCount: 0,
+    onlineBreakdown: {
+        cs2: 0,
+        csgo: 0,
+        cssource: 0,
+        cs16: 0
+    }
 };
 
 function renderPlayer(data) {
@@ -20,8 +26,8 @@ function renderPlayer(data) {
     document.getElementById('nickname').textContent = data.nickname;
     document.getElementById('left_sidebar_user_nickname').textContent = data.nickname;
     document.getElementById('left_sidebar_user_level').textContent = 'Ур. ' + data.level;
-    document.querySelector('.progress_level').textContent = 'Уровень ' + data.level;
-    document.querySelector('.progress_xp').textContent = data.xpCurrent.toLocaleString() + ' / ' + data.xpTotal.toLocaleString() + ' XP';
+    document.getElementById('progress_level').textContent = 'Уровень ' + data.level;
+    document.getElementById('progress_xp').textContent = data.xpCurrent.toLocaleString() + ' / ' + data.xpTotal.toLocaleString() + ' XP';
 
     setTimeout(() => {
         const pct = (data.xpCurrent / data.xpTotal) * 100;
@@ -99,6 +105,28 @@ function renderHeader(data) {
     }
 }
 
+function initOnlineCounter() {
+    const counter = document.getElementById('online_counter');
+    const breakdown = document.getElementById('online_breakdown');
+    if (!counter || !breakdown) return;
+
+    Object.entries(PlayerData.onlineBreakdown).forEach(([game, count]) => {
+        const row = breakdown.querySelector(`[data-game="${game}"] .count`);
+        if (row) row.textContent = count.toLocaleString();
+    });
+
+    counter.addEventListener('click', (e) => {
+        e.stopPropagation();
+        breakdown.classList.toggle('visible');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!counter.contains(e.target)) {
+            breakdown.classList.remove('visible');
+        }
+    });
+}
+
 function initTabs() {
     const buttons = document.querySelectorAll('#tab_buttons button');
     const contents = document.querySelectorAll('[data-tab-content]');
@@ -143,13 +171,20 @@ function initChat() {
     });
 }
 
-function initGameSelect() {
-    const select = document.getElementById('game_select');
-    if (select) {
-        select.addEventListener('change', (e) => {
-            // API call to switch game context
-        });
-    }
+function steamLogin() {
+    const returnUrl = encodeURIComponent('https://твой-сайт.ru/auth/steam/callback');
+    const realm     = encodeURIComponent('https://твой-сайт.ru/');
+
+    const steamOpenIdUrl =
+        'https://steamcommunity.com/openid/login' +
+        '?openid.ns='         + encodeURIComponent('http://specs.openid.net/auth/2.0') +
+        '&openid.mode=checkid_setup' +
+        '&openid.return_to='  + returnUrl +
+        '&openid.realm='      + realm +
+        '&openid.identity='   + encodeURIComponent('http://specs.openid.net/auth/2.0/identifier_select') +
+        '&openid.claimed_id=' + encodeURIComponent('http://specs.openid.net/auth/2.0/identifier_select');
+
+    window.location.href = steamOpenIdUrl;
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -157,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderHeader(PlayerData);
     renderStats(PlayerData);
     renderTags(PlayerData.tags);
+    initOnlineCounter();
     initTabs();
     initChat();
-    initGameSelect();
 });

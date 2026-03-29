@@ -45,15 +45,24 @@
                     <span id="online_dot"></span>
                     <span id="online"></span>
                     <span>онлайн</span>
-                </div>
-                <div id="game_select_wrap">
-                    <span id="game_dot"></span>
-                    <select id="game_select">
-                        <option value="cs2">CS2</option>
-                        <option value="csgo">CS:GO</option>
-                        <option value="cssource">CS:Source</option>
-                        <option value="cs16">CS 1.6</option>
-                    </select>
+                    <div id="online_breakdown">
+                        <div class="breakdown-row" data-game="cs2">
+                            <span>CS2</span>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="breakdown-row" data-game="csgo">
+                            <span>CS:GO</span>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="breakdown-row" data-game="cssource">
+                            <span>CS:Source</span>
+                            <span class="count">0</span>
+                        </div>
+                        <div class="breakdown-row" data-game="cs16">
+                            <span>CS 1.6</span>
+                            <span class="count">0</span>
+                        </div>
+                    </div>
                 </div>
                 <button id="chat_btn">
                     <i class="fas fa-comment-dots"></i>
@@ -67,6 +76,10 @@
                     <i class="fas fa-gem"></i>
                     <span id="balance"></span>
                 </div>
+                <button id="steam_auth" onclick="steamLogin()">
+                    <i class="fab fa-steam"></i>
+                    <span>Войти через Steam</span>
+                </button>
             </div>
         </header>
 
@@ -82,9 +95,9 @@
                 </div>
             </div>
             <div id="progress_bar">
-                <div class="progress_info">
-                    <span class="progress_level"></span>
-                    <span class="progress_xp"></span>
+                <div id="progress_info">
+                    <span id="progress_level"></span>
+                    <span id="progress_xp"></span>
                 </div>
                 <div id="progress_track">
                     <div id="progress_fill"></div>
@@ -112,6 +125,6 @@
 
     <!-- Чат-панель -->
     <div id="chat_panel"></div>
-    <script src="../Logic/Prf.js"></script>
+    <script src="../Actions/Prf.js"></script>
 </body>
 </html>

@@ -250,6 +250,7 @@ img {
     padding: 7px 13px;
     cursor: pointer;
     transition: border-color 0.2s;
+    position: relative;
 }
 
 #online_counter:hover {
@@ -279,44 +280,58 @@ img {
     min-width: 5ch;
 }
 
-#game_select_wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+#online_breakdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
     background: var(--bg-panel);
     border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 7px 13px;
-    transition: border-color 0.2s;
+    border-radius: 12px;
+    padding: 8px;
+    min-width: 160px;
+    display: none;
+    z-index: 50;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
 }
 
-#game_select_wrap:hover {
-    border-color: var(--red-border);
+#online_breakdown.visible {
+    display: block;
 }
 
-#game_dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--red);
-    box-shadow: 0 0 6px var(--red);
-    flex-shrink: 0;
+#online_breakdown::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 20px;
+    width: 10px;
+    height: 10px;
+    background: var(--bg-panel);
+    border-left: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    transform: rotate(45deg);
 }
 
-#game_select {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-family: var(--font-body);
-    font-size: 0.82rem;
-    font-weight: 600;
-    cursor: pointer;
+.breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: var(--text-2);
+    transition: background 0.15s;
 }
 
-#game_select option {
+.breakdown-row:hover {
     background: var(--bg-panel2);
     color: var(--text);
+}
+
+.breakdown-row .count {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    color: var(--green);
+    font-variant-numeric: tabular-nums;
 }
 
 #chat_btn {
@@ -523,7 +538,7 @@ img {
     border-top: 1px solid var(--border);
 }
 
-.progress_info {
+#progress_info {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -531,12 +546,12 @@ img {
     margin-bottom: 8px;
 }
 
-.progress_level {
+#progress_level {
     font-weight: 600;
     color: var(--text);
 }
 
-.progress_xp {
+#progress_xp {
     font-family: var(--font-mono);
     color: var(--text-2);
     font-variant-numeric: tabular-nums;
@@ -681,4 +696,31 @@ img {
     background: var(--red-dim);
     color: var(--red);
     border: 1px solid var(--red-border);
+}
+
+#steam_auth {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #1b2838;
+    border: 1px solid #2a475e;
+    border-radius: 10px;
+    color: #c6d4df;
+    font-size: 0.82rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+#steam_auth:hover {
+    background: #2a475e;
+    border-color: #66c0f4;
+    color: #fff;
+}
+
+#steam_auth i {
+    font-size: 1rem;
+    color: #66c0f4;
 }
