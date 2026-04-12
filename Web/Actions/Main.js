@@ -1,100 +1,48 @@
 /**
- * Main.js — страница серверов.
- * Зависит от auth.js и header_auth.js (подключаются выше в HTML).
- *
- * ─── Как подключить бэкенд ───────────────────────────────────────
- *  Все места, где надо добавить реальный fetch, помечены:
- *    // TODO [BACKEND]: ...
- * ─────────────────────────────────────────────────────────────────
+ * main.js — страница серверов
  */
 
-/* ================================================================
-   Конфигурация серверов
-   TODO [BACKEND]: заменить на GET /api/servers — список из БД
-   ================================================================ */
-const SERVERS_CONFIG = {
-    cs2: [
-        {
-            id: 'cs2-dm-1',
-            name: 'First | DM #1 [128 tick]',
-            map: 'de_dust2',
-            ip: '45.11.123.45:27015',
-            location: 'Москва',
-            maxPlayers: 20,
-            tags: ['128tick', 'HS only', 'No AWP']
-        },
-        {
-            id: 'cs2-dm-2',
-            name: 'First | DM #2 [Mirage]',
-            map: 'de_mirage',
-            ip: '45.11.123.46:27015',
-            location: 'Москва',
-            maxPlayers: 20,
-            tags: ['128tick', 'Pistols']
-        },
-        {
-            id: 'cs2-retake-1',
-            name: 'First | Retake #1',
-            map: 'de_inferno',
-            ip: '45.11.123.47:27015',
-            location: 'Санкт-Петербург',
-            maxPlayers: 10,
-            tags: ['Retake', 'Competitive']
-        }
-    ],
-    csgo: [
-        {
-            id: 'csgo-surf-1',
-            name: 'First | Surf [Tier 1-3]',
-            map: 'surf_mesa',
-            ip: '45.11.124.10:27015',
-            location: 'Москва',
-            maxPlayers: 32,
-            tags: ['Surf', 'Timer']
-        }
-    ],
-    cssource: [],
-    cs16: [
-        {
-            id: 'cs16-jail-1',
-            name: 'First | Jailbreak #1',
-            map: 'jb_summer',
-            ip: '45.11.125.20:27015',
-            location: 'Москва',
-            maxPlayers: 32,
-            tags: ['Jail', 'Vip free']
-        }
-    ]
-};
+// Импорт конфигурации (уже глобально)
+const { GAMES, LABEL_COLORS, MOCK_SERVERS } = window.CONFIG;
 
-const GAMES = {
-    cs2:      { id: 'cs2',      name: 'CS2',    fullName: 'Counter-Strike 2',       badgeClass: 'badge_cs2'      },
-    csgo:     { id: 'csgo',     name: 'CS:GO',  fullName: 'Counter-Strike: GO',     badgeClass: 'badge_csgo'     },
-    cssource: { id: 'cssource', name: 'CS:S',   fullName: 'CS:Source',              badgeClass: 'badge_cssource' },
-    cs16:     { id: 'cs16',     name: 'CS 1.6', fullName: 'Counter-Strike 1.6',     badgeClass: 'badge_cs16'     }
-};
+let currentGame = 'cs2';
+let serverUpdateTimer = null;
 
-const LABEL_COLORS = {
-    cs2:      { bg: 'rgba(96,165,250,0.12)',  color: '#60a5fa', border: 'rgba(96,165,250,0.25)'  },
-    csgo:     { bg: 'rgba(240,180,41,0.12)',  color: '#f0b429', border: 'rgba(240,180,41,0.25)'  },
-    cssource: { bg: 'rgba(168,85,247,0.12)',  color: '#a855f7', border: 'rgba(168,85,247,0.25)'  },
-    cs16:     { bg: 'rgba(34,197,94,0.12)',   color: '#22c55e', border: 'rgba(34,197,94,0.25)'   }
-};
+// DOM элементы
+const el = (id) => document.getElementById(id);
 
-/* ================================================================
-   Состояние страницы
-   ================================================================ */
-let currentGame        = 'cs2';
-let serverUpdateTimer  = null;
+// Утилиты
+function escapeHtml(text) {
+    const d = document.createElement('div');
+    d.textContent = text;
+    return d.innerHTML;
+}
 
-/* ================================================================
-   DOMContentLoaded
-   ================================================================ */
+function showToast(msg) {
+    let t = el('_toast');
+    if (!t) {
+        t = document.createElement('div');
+        t.id = '_toast';
+        Object.assign(t.style, {
+            position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)',
+            background:'#16161b', border:'1px solid rgba(255,255,255,.12)',
+            color:'#f0f0f5', padding:'10px 20px', borderRadius:'10px',
+            fontSize:'.82rem', fontFamily:'DM Sans,sans-serif',
+            zIndex:'9999', transition:'opacity .3s', opacity:'0', pointerEvents:'none'
+        });
+        document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.style.opacity = '1';
+    clearTimeout(t._tid);
+    t._tid = setTimeout(() => t.style.opacity = '0', 2500);
+}
+
+// Инициализация после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
-    /* 1. HeaderAuth назначает колбэки Auth.onLogin / Auth.onLogout */
     HeaderAuth.init();
 
-    /* 2. Доп-колбэк: при логине заполняем сайдбар */
+    // Расширяем колбэки Auth
     const originalOnLogin = Auth.onLogin;
     Auth.onLogin = (user) => {
         originalOnLogin(user);
@@ -106,7 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
         clearSidebarUser();
     };
 
-    /* 3. Инициализация страницы */
     initOnlineCounter();
     buildGameSelector();
     initChat();
@@ -116,85 +63,67 @@ document.addEventListener('DOMContentLoaded', () => {
     selectGame(gameParam && GAMES[gameParam] ? gameParam : 'cs2');
 
     startServerUpdates();
-
-    /* 4. Проверяем сессию (авторизован или нет) */
     Auth.init();
 });
 
-/* ================================================================
-   Сайдбар: пользователь
-   ================================================================ */
+// Сайдбар
 function fillSidebarUser(user) {
-    const av = document.getElementById('left_sidebar_user_avatar');
+    const av = el('left_sidebar_user_avatar');
     if (av) av.src = user.avatar_url || '';
-    const nn = document.getElementById('left_sidebar_user_nickname');
+    const nn = el('left_sidebar_user_nickname');
     if (nn) nn.textContent = user.nickname || '—';
-    const lv = document.getElementById('left_sidebar_user_level');
-    if (lv) lv.textContent = 'Ур. ' + (user.level || 0);
+    const lv = el('left_sidebar_user_level');
+    if (lv) lv.textContent = `Ур. ${user.level || 0}`;
 }
 
 function clearSidebarUser() {
-    const av = document.getElementById('left_sidebar_user_avatar');
+    const av = el('left_sidebar_user_avatar');
     if (av) av.src = '';
-    const nn = document.getElementById('left_sidebar_user_nickname');
+    const nn = el('left_sidebar_user_nickname');
     if (nn) nn.textContent = '—';
-    const lv = document.getElementById('left_sidebar_user_level');
+    const lv = el('left_sidebar_user_level');
     if (lv) lv.textContent = '—';
 }
 
-/* ================================================================
-   Онлайн-счётчик
-   ================================================================ */
+// Онлайн
 function initOnlineCounter() {
-    const c = document.getElementById('online_counter');
-    const b = document.getElementById('online_breakdown');
+    const c = el('online_counter');
+    const b = el('online_breakdown');
     if (!c || !b) return;
     c.addEventListener('click', e => { e.stopPropagation(); b.classList.toggle('visible'); });
     document.addEventListener('click', e => { if (!c.contains(e.target)) b.classList.remove('visible'); });
 }
 
-/**
- * TODO [BACKEND]: заменить заглушку на реальный запрос:
- *   const res  = await fetch('/api/online', { credentials: 'include' });
- *   const data = await res.json();
- *   // data = { total: 1842, cs2: 1100, csgo: 420, cssource: 210, cs16: 112 }
- *   updateOnlineDisplay(data.total, data);
- */
 async function fetchOnline() {
-    // Заглушка — отображаем «—» пока нет бэкенда
-    updateOnlineDisplay(null, null);
+    try {
+        const res = await fetch(`${CONFIG.API_BASE_URL}/api/online`, { credentials: 'include' });
+        if (!res.ok) throw new Error('Online fetch failed');
+        const data = await res.json();
+        updateOnlineDisplay(data.total, data);
+    } catch {
+        updateOnlineDisplay(null, null);
+    }
 }
 
 function updateOnlineDisplay(total, breakdown) {
-    const onEl = document.getElementById('online');
+    const onEl = el('online');
     if (onEl) onEl.textContent = total !== null ? total.toLocaleString('ru-RU') : '—';
-
-    const games = ['cs2', 'csgo', 'cssource', 'cs16'];
-    games.forEach(g => {
-        const el = document.getElementById('count_' + g);
-        if (el) el.textContent = (breakdown && breakdown[g] !== undefined)
+    ['cs2', 'csgo', 'cssource', 'cs16'].forEach(g => {
+        const cell = el(`count_${g}`);
+        if (cell) cell.textContent = (breakdown && breakdown[g] !== undefined)
             ? breakdown[g].toLocaleString('ru-RU')
             : '—';
     });
 }
 
-/* ================================================================
-   Game selector
-   ================================================================ */
+// Селектор игры
 function buildGameSelector() {
-    const wrap = document.getElementById('game_selector');
+    const wrap = el('game_selector');
     if (!wrap) return;
 
     const btn = document.createElement('button');
     btn.id = 'gs_btn';
-
-    const bSpan = document.createElement('span');
-    const nSpan = document.createElement('span');
-    const chev  = document.createElement('i');
-    chev.className = 'fas fa-chevron-down chevron';
-    btn.appendChild(bSpan);
-    btn.appendChild(nSpan);
-    btn.appendChild(chev);
+    btn.innerHTML = '<span></span><span></span><i class="fas fa-chevron-down chevron"></i>';
 
     const dd = document.createElement('div');
     dd.id = 'gs_dd';
@@ -203,13 +132,7 @@ function buildGameSelector() {
         const opt = document.createElement('div');
         opt.className = 'game_option';
         opt.dataset.game = g.id;
-        const b = document.createElement('span');
-        b.id = g.badgeClass;
-        b.textContent = g.name;
-        const n = document.createElement('span');
-        n.textContent = g.fullName;
-        opt.appendChild(b);
-        opt.appendChild(n);
+        opt.innerHTML = `<span class="${g.badgeClass}">${g.name}</span><span>${g.fullName}</span>`;
         opt.addEventListener('click', () => { selectGame(g.id); closeDD(); });
         dd.appendChild(opt);
     });
@@ -224,21 +147,21 @@ function buildGameSelector() {
     document.addEventListener('click', () => closeDD());
 }
 
-const openDD = () => {
-    document.getElementById('gs_btn')?.classList.add('open');
-    document.getElementById('gs_dd')?.classList.add('open');
-};
-const closeDD = () => {
-    document.getElementById('gs_btn')?.classList.remove('open');
-    document.getElementById('gs_dd')?.classList.remove('open');
-};
+function openDD() {
+    el('gs_btn')?.classList.add('open');
+    el('gs_dd')?.classList.add('open');
+}
+function closeDD() {
+    el('gs_btn')?.classList.remove('open');
+    el('gs_dd')?.classList.remove('open');
+}
 
 function updateSelector(id) {
-    const g    = GAMES[id];
-    const btn  = document.getElementById('gs_btn');
+    const g = GAMES[id];
+    const btn = el('gs_btn');
     if (!btn) return;
     const spans = btn.querySelectorAll('span');
-    spans[0].id          = g.badgeClass;
+    spans[0].className = g.badgeClass;
     spans[0].textContent = g.name;
     spans[1].textContent = g.fullName;
     document.querySelectorAll('.game_option').forEach(o => {
@@ -249,27 +172,25 @@ function updateSelector(id) {
 function selectGame(id) {
     currentGame = id;
     updateSelector(id);
-    const c   = LABEL_COLORS[id];
-    const lbl = document.getElementById('game_label');
+    const c = LABEL_COLORS[id];
+    const lbl = el('game_label');
     if (lbl) {
-        lbl.textContent       = GAMES[id].fullName;
-        lbl.style.background  = c.bg;
-        lbl.style.color       = c.color;
-        lbl.style.borderColor = c.border;
+        lbl.textContent = GAMES[id].fullName;
+        Object.assign(lbl.style, {
+            background: c.bg,
+            color: c.color,
+            borderColor: c.border
+        });
     }
     renderServers(id);
 }
 
-/* ================================================================
-   Серверы — рендер и обновление
-   ================================================================ */
+// Серверы
 function renderServers(gameId) {
-    const grid  = document.getElementById('servers_grid');
-    const count = document.getElementById('servers_count');
-
-    // TODO [BACKEND]: servers = await fetch('/api/servers?game=' + gameId)
-    const servers = SERVERS_CONFIG[gameId] || [];
-
+    const grid = el('servers_grid');
+    const count = el('servers_count');
+    // Используем моки или запрос к API
+    const servers = MOCK_SERVERS[gameId] || [];
     const n = servers.length;
     if (count) count.textContent = n + ' сервер' + (n === 1 ? '' : n < 5 ? 'а' : 'ов');
 
@@ -293,8 +214,8 @@ function renderServers(gameId) {
 
 function buildServerCard(server) {
     const card = document.createElement('div');
-    card.id        = 'server_' + server.id;
     card.className = 'server_card';
+    card.id = `server_${server.id}`;
     card.innerHTML = `
         <div class="server_card_header">
             <div class="server_status server_status_offline" id="status_${server.id}"></div>
@@ -311,40 +232,34 @@ function buildServerCard(server) {
             <div class="server_players_text" id="players_${server.id}">—/${server.maxPlayers}</div>
         </div>
         <div class="server_card_footer">
-            <div class="server_location">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>${escapeHtml(server.location)}</span>
-            </div>
-            <div class="server_tags">
-                ${server.tags.map(t => `<span class="server_tag">${escapeHtml(t)}</span>`).join('')}
-            </div>
-            <button class="server_connect_btn" onclick="connectToServer('${escapeHtml(server.ip)}')">
-                <i class="fas fa-play"></i> Подключиться
-            </button>
+            <div class="server_location"><i class="fas fa-map-marker-alt"></i><span>${escapeHtml(server.location)}</span></div>
+            <div class="server_tags">${server.tags.map(t => `<span class="server_tag">${escapeHtml(t)}</span>`).join('')}</div>
+            <button class="server_connect_btn" data-ip="${escapeHtml(server.ip)}"><i class="fas fa-play"></i> Подключиться</button>
         </div>`;
+    // Вешаем обработчик на кнопку
+    card.querySelector('.server_connect_btn').addEventListener('click', (e) => {
+        const ip = e.currentTarget.dataset.ip;
+        connectToServer(ip);
+    });
     return card;
 }
 
-/**
- * TODO [BACKEND]: заменить на реальный запрос к game-query серверу:
- *   const res    = await fetch('/api/servers/status?id=' + serverId, { credentials: 'include' });
- *   const status = await res.json();
- *   // status = { online: true, players: 12, maxPlayers: 20, ping: 23, map: 'de_dust2' }
- */
-async function fetchServerStatus(serverId) {
-    /* Заглушка: возвращаем «нет данных» до подключения бэкенда */
-    const server = getServerById(serverId);
-    return {
-        online:     null,   // null = нет данных
-        players:    null,
-        maxPlayers: server ? server.maxPlayers : 0,
-        ping:       null,
-        map:        server ? server.map : ''
-    };
+async function fetchServersStatus(ids) {
+    if (ids.length === 0) return {};
+    try {
+        const res = await fetch(`${CONFIG.API_BASE_URL}/api/servers/status?ids=${ids.join(',')}`, {
+            credentials: 'include'
+        });
+        if (!res.ok) throw new Error('Status fetch failed');
+        return await res.json();
+    } catch {
+        // Fallback: возвращаем пустой объект (все серверы покажут "нет данных")
+        return {};
+    }
 }
 
 function getServerById(id) {
-    for (const game of Object.values(SERVERS_CONFIG)) {
+    for (const game of Object.values(MOCK_SERVERS)) {
         const s = game.find(s => s.id === id);
         if (s) return s;
     }
@@ -352,58 +267,61 @@ function getServerById(id) {
 }
 
 async function updateAllServers() {
+    // Собираем ID всех серверов текущей игры
+    const servers = MOCK_SERVERS[currentGame] || [];
+    const ids = servers.map(s => s.id);
+    const statuses = await fetchServersStatus(ids);
+
     let totalOnline = 0;
     const breakdown = { cs2: 0, csgo: 0, cssource: 0, cs16: 0 };
-    let hasData     = false;
+    let hasData = false;
 
-    for (const [gameId, servers] of Object.entries(SERVERS_CONFIG)) {
-        for (const server of servers) {
-            const status = await fetchServerStatus(server.id);
-            updateServerCard(server.id, status);
-            if (status.online === true) {
-                hasData = true;
-                totalOnline        += status.players || 0;
-                breakdown[gameId]  += status.players || 0;
-            }
+    for (const server of servers) {
+        const status = statuses[server.id] || { online: null, players: null, ping: null, map: server.map };
+        updateServerCard(server.id, status, server.maxPlayers);
+        if (status.online === true) {
+            hasData = true;
+            totalOnline += status.players || 0;
+            breakdown[currentGame] += status.players || 0;
         }
     }
 
-    updateOnlineDisplay(hasData ? totalOnline : null, hasData ? breakdown : null);
+    // Общий онлайн обновляем отдельным запросом
+    fetchOnline();
 }
 
-function updateServerCard(serverId, status) {
-    const statusEl  = document.getElementById('status_'  + serverId);
-    const playersEl = document.getElementById('players_' + serverId);
-    const fillEl    = document.getElementById('fill_'    + serverId);
-    const pingEl    = document.getElementById('ping_'    + serverId);
-    const mapEl     = document.getElementById('map_'     + serverId);
+function updateServerCard(serverId, status, maxPlayers) {
+    const statusEl  = el(`status_${serverId}`);
+    const playersEl = el(`players_${serverId}`);
+    const fillEl    = el(`fill_${serverId}`);
+    const pingEl    = el(`ping_${serverId}`);
+    const mapEl     = el(`map_${serverId}`);
 
     if (!statusEl) return;
 
     statusEl.className = 'server_status';
 
     if (status.online === null) {
-        /* Нет данных от бэкенда */
         statusEl.classList.add('server_status_offline');
         if (pingEl) { pingEl.textContent = '—'; pingEl.className = 'server_ping'; }
-        if (playersEl) playersEl.textContent = `—/${status.maxPlayers}`;
+        if (playersEl) playersEl.textContent = `—/${maxPlayers}`;
         if (fillEl) fillEl.style.width = '0%';
     } else if (!status.online) {
         statusEl.classList.add('server_status_offline');
         if (pingEl) { pingEl.textContent = 'offline'; pingEl.className = 'server_ping'; }
-        if (playersEl) playersEl.textContent = `0/${status.maxPlayers}`;
+        if (playersEl) playersEl.textContent = `0/${maxPlayers}`;
         if (fillEl) fillEl.style.width = '0%';
-    } else if (status.players >= status.maxPlayers) {
+    } else if (status.players >= maxPlayers) {
         statusEl.classList.add('server_status_full');
         if (pingEl) { pingEl.textContent = (status.ping ?? '—') + ' ms'; pingEl.className = 'server_ping medium'; }
-        if (playersEl) playersEl.textContent = `${status.players}/${status.maxPlayers}`;
+        if (playersEl) playersEl.textContent = `${status.players}/${maxPlayers}`;
         if (fillEl) fillEl.style.width = '100%';
     } else {
         statusEl.classList.add('server_status_online');
         const pingClass = !status.ping ? '' : status.ping < 50 ? 'good' : status.ping < 100 ? 'medium' : 'bad';
-        if (pingEl) { pingEl.textContent = (status.ping ?? '—') + ' ms'; pingEl.className = 'server_ping ' + pingClass; }
-        const pct = status.maxPlayers > 0 ? (status.players / status.maxPlayers * 100) : 0;
-        if (playersEl) playersEl.textContent = `${status.players}/${status.maxPlayers}`;
+        if (pingEl) { pingEl.textContent = (status.ping ?? '—') + ' ms'; pingEl.className = `server_ping ${pingClass}`; }
+        const pct = maxPlayers > 0 ? (status.players / maxPlayers * 100) : 0;
+        if (playersEl) playersEl.textContent = `${status.players}/${maxPlayers}`;
         if (fillEl) fillEl.style.width = pct + '%';
     }
 
@@ -412,28 +330,21 @@ function updateServerCard(serverId, status) {
 
 function startServerUpdates() {
     updateAllServers();
-    /* TODO [BACKEND]: можно уменьшить интервал когда бэкенд быстрый */
-    serverUpdateTimer = setInterval(updateAllServers, 30_000);
+    serverUpdateTimer = setInterval(updateAllServers, 30000);
 }
 
-/* ================================================================
-   Подключение к серверу
-   ================================================================ */
+// Подключение
 function connectToServer(ip) {
-    const cmd = 'connect ' + ip;
-    navigator.clipboard.writeText(cmd).then(() => {
-        showToast('Скопировано: ' + cmd);
-    }).catch(() => {
-        showToast('Команда: ' + cmd);
-    });
+    const cmd = `connect ${ip}`;
+    navigator.clipboard?.writeText(cmd)
+        .then(() => showToast(`Скопировано: ${cmd}`))
+        .catch(() => showToast(`Команда: ${cmd}`));
 }
 
-/* ================================================================
-   Чат
-   ================================================================ */
+// Чат
 function initChat() {
-    const btn = document.getElementById('chat_btn');
-    const pan = document.getElementById('chat_panel');
+    const btn = el('chat_btn');
+    const pan = el('chat_panel');
     if (!btn || !pan) return;
     btn.addEventListener('click', () => pan.classList.toggle('open'));
     document.addEventListener('click', e => {
@@ -441,36 +352,4 @@ function initChat() {
             pan.classList.remove('open');
         }
     });
-}
-
-/* ================================================================
-   Toast (лёгкое уведомление вместо alert)
-   ================================================================ */
-function showToast(msg) {
-    let t = document.getElementById('_toast');
-    if (!t) {
-        t = document.createElement('div');
-        t.id = '_toast';
-        Object.assign(t.style, {
-            position:'fixed', bottom:'24px', left:'50%', transform:'translateX(-50%)',
-            background:'#16161b', border:'1px solid rgba(255,255,255,.12)',
-            color:'#f0f0f5', padding:'10px 20px', borderRadius:'10px',
-            fontSize:'.82rem', fontFamily:'DM Sans,sans-serif',
-            zIndex:'9999', transition:'opacity .3s', opacity:'0', pointerEvents:'none'
-        });
-        document.body.appendChild(t);
-    }
-    t.textContent = msg;
-    t.style.opacity = '1';
-    clearTimeout(t._tid);
-    t._tid = setTimeout(() => { t.style.opacity = '0'; }, 2500);
-}
-
-/* ================================================================
-   Утилиты
-   ================================================================ */
-function escapeHtml(text) {
-    const d = document.createElement('div');
-    d.textContent = text;
-    return d.innerHTML;
 }

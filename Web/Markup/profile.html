@@ -5,19 +5,17 @@
     <title>First — Профиль</title>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    <link rel="stylesheet" href="../Visual/Prf.css">
+    <link rel="stylesheet" href="../Visual/profile.css">
     <base target="_blank">
 </head>
 <body>
-
-    <!-- Левая панель -->
     <aside id="left_sidebar">
         <div id="upper_logo">
             <div id="logo_text">FIRST<span>.</span></div>
         </div>
         <nav id="left_nav">
             <ul>
-                <li><i class="fas fa-server"></i><a href="/servers">Сервера</a></li>
+                <li><i class="fas fa-server"></i><a href="/main">Сервера</a></li>
                 <li><i class="fas fa-wand-magic-sparkles"></i><a href="#">Скинченджер</a></li>
                 <li><i class="fas fa-shield-halved"></i><a href="#">Клан</a></li>
                 <li><i class="fas fa-users"></i><a href="#">Друзья</a></li>
@@ -38,14 +36,12 @@
         </div>
     </aside>
 
-    <!-- Основная часть -->
     <div id="main_content">
         <header id="upper_panel">
             <div id="upper_panel_left">
                 <span id="page_title">Профиль</span>
             </div>
             <div id="upper_panel_right">
-
                 <div id="online_counter">
                     <span id="online_dot"></span>
                     <span id="online">—</span>
@@ -57,27 +53,10 @@
                         <div class="breakdown-row" data-game="cs16"><span>CS 1.6</span><span class="count">—</span></div>
                     </div>
                 </div>
-
-                <button id="chat_btn">
-                    <i class="fas fa-comment-dots"></i>
-                    <span id="chat_badge"></span>
-                </button>
-
-                <div id="notification_wrap">
-                    <i class="fas fa-bell"></i>
-                    <span id="notification"></span>
-                </div>
-
-                <div id="balance_wrap" style="display:none;">
-                    <i class="fas fa-gem"></i>
-                    <span id="balance">0 ₽</span>
-                </div>
-
-                <button id="steam_auth" onclick="steamLogin()">
-                    <i class="fab fa-steam"></i>
-                    <span>Войти через Steam</span>
-                </button>
-
+                <button id="chat_btn"><i class="fas fa-comment-dots"></i><span id="chat_badge"></span></button>
+                <div id="notification_wrap"><i class="fas fa-bell"></i><span id="notification"></span></div>
+                <div id="balance_wrap" style="display:none;"><i class="fas fa-gem"></i><span id="balance">0 ₽</span></div>
+                <button id="steam_auth"><i class="fab fa-steam"></i><span>Войти через Steam</span></button>
                 <div id="profile_header_btn" style="display:none;">
                     <img id="profile_header_avatar" src="" alt="">
                     <div id="profile_header_info">
@@ -92,7 +71,6 @@
                         <a href="#" id="logout_btn"><i class="fas fa-right-from-bracket"></i> Выйти</a>
                     </div>
                 </div>
-
             </div>
         </header>
 
@@ -138,8 +116,12 @@
 
     <div id="chat_panel"></div>
 
+    <script src="../Actions/config.js"></script>
     <script src="../Actions/auth.js"></script>
-    <script src="../Actions/header_auth.js"></script>
-    <script src="../Actions/Prf.js"></script>
+    <script src="../Actions/headerAuth.js"></script>
+    <script src="../Actions/profile.js"></script>
+    <script>
+        document.getElementById('steam_auth').addEventListener('click', steamLogin);
+    </script>
 </body>
 </html>
