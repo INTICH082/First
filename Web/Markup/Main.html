@@ -6,9 +6,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <link rel="stylesheet" href="../Visual/Main.css">
+    <base target="_blank">
 </head>
 <body>
 
+    <!-- Левая часть -->
     <aside id="left_sidebar">
         <div id="upper_logo">
             <div id="logo_text">FIRST<span>.</span></div>
@@ -30,13 +32,14 @@
             <div id="left_sidebar_user">
                 <img id="left_sidebar_user_avatar" src="" alt="Аватар">
                 <div id="left_sidebar_user_info">
-                    <span id="left_sidebar_user_nickname">Player</span>
-                    <span id="left_sidebar_user_level">Ур. 1</span>
+                    <span id="left_sidebar_user_nickname">—</span>
+                    <span id="left_sidebar_user_level">—</span>
                 </div>
             </div>
         </div>
     </aside>
 
+    <!-- Основная часть -->
     <div id="main_content">
         <header id="upper_panel">
             <div id="upper_panel_left">
@@ -44,33 +47,60 @@
                 <span id="game_label"></span>
             </div>
             <div id="upper_panel_right">
+
+                <!-- Онлайн -->
                 <div id="online_counter">
                     <span id="online_dot"></span>
-                    <span id="online">0</span>
+                    <span id="online">—</span>
                     <span>онлайн</span>
                     <div id="online_breakdown">
-                        <div id="breakdown_row_cs2"><span>CS2</span><span id="count_cs2">0</span></div>
-                        <div id="breakdown_row_csgo"><span>CS:GO</span><span id="count_csgo">0</span></div>
-                        <div id="breakdown_row_cssource"><span>CS:Source</span><span id="count_cssource">0</span></div>
-                        <div id="breakdown_row_cs16"><span>CS 1.6</span><span id="count_cs16">0</span></div>
+                        <div id="breakdown_row_cs2"><span>CS2</span><span id="count_cs2">—</span></div>
+                        <div id="breakdown_row_csgo"><span>CS:GO</span><span id="count_csgo">—</span></div>
+                        <div id="breakdown_row_cssource"><span>CS:Source</span><span id="count_cssource">—</span></div>
+                        <div id="breakdown_row_cs16"><span>CS 1.6</span><span id="count_cs16">—</span></div>
                     </div>
                 </div>
+
+                <!-- Чат -->
                 <button id="chat_btn">
                     <i class="fas fa-comment-dots"></i>
-                    <span id="chat_badge">7</span>
+                    <span id="chat_badge"></span>
                 </button>
+
+                <!-- Уведомления -->
                 <div id="notification_wrap">
                     <i class="fas fa-bell"></i>
                     <span id="notification"></span>
                 </div>
-                <div id="balance_wrap">
+
+                <!-- Баланс (скрыт до авторизации) -->
+                <div id="balance_wrap" style="display:none;">
                     <i class="fas fa-gem"></i>
                     <span id="balance">0 ₽</span>
                 </div>
+
+                <!-- Steam кнопка -->
                 <button id="steam_auth" onclick="steamLogin()">
                     <i class="fab fa-steam"></i>
                     <span>Войти через Steam</span>
                 </button>
+
+                <!-- Кнопка профиля (после авторизации) -->
+                <div id="profile_header_btn" style="display:none;">
+                    <img id="profile_header_avatar" src="" alt="">
+                    <div id="profile_header_info">
+                        <span id="profile_header_name">—</span>
+                        <span id="profile_header_level">—</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                    <div id="profile_header_dropdown">
+                        <a href="/profile"><i class="fas fa-user"></i> Мой профиль</a>
+                        <a href="/settings"><i class="fas fa-cog"></i> Настройки</a>
+                        <div class="dropdown_divider"></div>
+                        <a href="#" id="logout_btn"><i class="fas fa-right-from-bracket"></i> Выйти</a>
+                    </div>
+                </div>
+
             </div>
         </header>
 
@@ -85,6 +115,8 @@
 
     <div id="chat_panel"></div>
 
+    <script src="../Actions/auth.js"></script>
+    <script src="../Actions/header_auth.js"></script>
     <script src="../Actions/Main.js"></script>
 </body>
 </html>
