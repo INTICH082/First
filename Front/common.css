@@ -1,177 +1,292 @@
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
     padding: 0;
-    position: relative;
     display: flex;
-    align-items: center;       
-    justify-content: flex-start;
-    background-color: rgb(30, 30, 30);  
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: rgb(30, 30, 30);
     color: #fff;
-    font-family: 'Gill sans', 'Tahoma', 'Sans-serif';
-    min-height: 60px;           
-    padding: 0 20px;
-    gap: 60px;                 
+    font-family: 'Gill Sans', 'Tahoma', sans-serif;
 }
+
+/* Верхний интерфейс*/
 
 .site-header {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    padding: 10px 20px;
-    gap: 40px;
+    justify-content: space-between;
+    padding: 8px 20px;
     background-color: rgb(20, 20, 20);
-    position: sticky;
-    top: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    width: 100%;
     z-index: 1000;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    flex-wrap: wrap;
 }
 
-/* Левая навигация */
-
 .header-left {
-    padding: 30px;
-    margin: 0px;
-    background-color: aqua;
-    background: linear-gradient(230deg, rgb(139,0,0) 0%, rgb(80, 0, 0) 70%, rgb(20, 20, 20) 100%);
-    position: relative;
-    border-radius: 30px;
-    bottom: 6px;
-    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 8px 20px 8px 15px;
+    background: linear-gradient(145deg, rgb(139,0,0) 0%, rgb(80, 0, 0) 70%, rgb(20, 20, 20) 100%);
+    border-radius: 0 30px 30px 0;
+    margin-left: -20px;
 }
 
 #logo p {
     margin: 0;
-    font-size: 42px;
+    font-size: 36px;
     font-weight: 800;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     color: #fff;
-    text-shadow: 5px 5px 0 #300;
+    text-shadow: 3px 3px 0 #300;
     font-family: 'Tahoma';
 }
 
 #logodot {
-    color: red;
+    color: #ff4444;
 }
 
-#game-selector {
-    padding: 15px;
-    background-color: blueviolet;
-}
-
-/* Центральная навигация */
-
-.main-nav {
-    margin: 5px;
-    padding: 5px;
-    position: relative;
-    bottom: 25px;
-    background-color: #300;
+#game-selector select {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgb(139, 0, 0);
+    color: #fff;
+    padding: 8px 15px;
     border-radius: 20px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    outline: none;
 }
 
-.main-nav ul{
-    padding: 15px;
+#game-selector select:hover {
+    border-color: #ff4444;
+}
+
+.main-nav ul {
     display: flex;
-    gap: 30px;
-    list-style-type: none;
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
 .main-nav .nav-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
-    background-color: rgb(59, 59, 109);
+    width: 48px;
+    height: 48px;
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 12px;
+    color: rgb(139, 0, 0);
+    font-size: 24px;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.main-nav .nav-link i {
+    color: inherit;
 }
 
 .main-nav .nav-link:hover {
-    background: rgb(0, 30, 139);
-    color: #fff;              
+    background: rgb(139, 0, 0);
+    color: #fff;
     transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(139, 0, 0, 0.5);
 }
 
-/* Правая навигация */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
 
 .online-widget {
     position: relative;
     display: inline-flex;
-    padding: 20px 15px;
+    align-items: center;
+    padding: 8px 16px;
     background: rgba(20, 20, 20, 0.8);
     border-radius: 30px;
     backdrop-filter: blur(4px);
-    border: 1px solid lightslategray;
+    border: 1px solid #777;
     font-weight: bold;
+    cursor: pointer;
     transition: background 0.2s;
 }
 
 .online-widget:hover {
     background: rgb(139, 0, 0);
+    border-color: rgb(139, 0, 0);
 }
 
-.dropdown {
+#online-dropdown {
     position: absolute;
-    padding: 8px;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: #1e1e1e;
+    border: 1px solid rgb(139, 0, 0);
     border-radius: 12px;
+    padding: 8px 0;
+    min-width: 180px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    z-index: 100;
+    backdrop-filter: blur(8px);
 }
 
 .dropdown-hidden {
-    display: none;
+    display: none !important;
 }
 
 .dropdown-item {
     display: flex;
     justify-content: space-between;
-    padding: 8px 16px;
+    padding: 8px 20px;
     color: #ddd;
     font-size: 14px;
     transition: background 0.1s;
+    cursor: default;
+}
+
+.dropdown-item:hover {
+    background: rgba(139, 0, 0, 0.3);
+}
+
+.online-count {
+    color: #ff6666;
+    font-weight: bold;
 }
 
 #balance {
-    padding: 5px 10px;
-    border-radius: 10px;
-    background-color: darkred;
-    position: absolute;
-    top: 30px;
-    right: 200px;
+    padding: 8px 16px;
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 30px;
+    border: 1px solid rgb(139, 0, 0);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#balance:hover {
+    background: rgb(139, 0, 0);
 }
 
 #balance span {
-    font-weight: bold;
-    color: red;
+    color: #fff;
+}
+
+#balance i {
+    margin-left: 5px;
+    color: rgb(139, 0, 0);
+    transition: color 0.2s;
+}
+
+#balance:hover i {
+    color: #fff;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 15px 5px 8px;
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 40px;
+    border: 1px solid rgb(139, 0, 0);
+}
+
+.avatar {
+    border-radius: 50%;
+    border: 2px solid rgb(139, 0, 0);
+    width: 36px;
+    height: 36px;
+}
+
+.username {
+    font-weight: 500;
+}
+
+.header-divider {
+    margin: 0;
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #666, transparent);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    width: 100%;
+}
+
+.site-content {
+    flex: 1;
+    padding: 20px;
+    background-color: rgb(30, 30, 30);
+    color: #ccc;
+}
+
+/* Сообщения и уведомления */
+
+#messages,
+#notifications {
+    position: fixed;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid rgb(139, 0, 0);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    z-index: 999;
 }
 
 #messages {
-    padding: 10px;
-    margin: 10px;
-    display: flex;
-    position: absolute;
-    top: 100px;
-    right: 20px;
-    background-color: lightslategray;
-    border-radius: 90px;
-    transition: all 0.4s ease;
-}
-
-#messages:hover {
-    background-color: lightcoral;
-    transform: scale(1.1) rotate(-20deg);
+    top: 90px;   
 }
 
 #notifications {
-    padding: 10px;
-    margin: 10px;
-    display: flex;
-    position: absolute;
-    top: 150px;
-    right: 20px;
-    background-color: lightslategray;
-    border-radius: 90px;
-    transition: all 0.4s ease;
+    top: 150px; 
 }
 
+#messages i,
+#notifications i {
+    font-size: 24px;
+    color: rgb(139, 0, 0);
+    transition: color 0.2s;
+}
+
+#messages:hover,
 #notifications:hover {
-    background-color: lightcoral;
-    transform: scale(1.1) rotate(-20deg);
+    background: rgb(139, 0, 0);
+    transform: scale(1.1) rotate(-5deg);
+}
+
+#messages:hover i,
+#notifications:hover i {
+    color: #fff;
+}
+
+.badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #ff4444;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    min-width: 20px;
+    text-align: center;
 }
