@@ -4,75 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" hred="common.css">
+    <link rel="stylesheet" href="common.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>First</title>
 </head>
 <body>
-    <!-- Левая навигация -->
-    <div class="header-left">
-        <div id="logo">
-            <p>First<span id="logodot">.</span></p>
+    <header class="site-header">
+        <!-- Левая навигация -->
+        <div class="header-left">
+            <div id="logo">
+                <p>First<span id="logodot">.</span></p>
+            </div>
+            <div id="game-selector">
+                <select aria-label="Выбор игры">
+                    <option value="cs2">Counter-Strike 2</option>
+                    <option value="cs:go">Counter-Strike: Global Offensive</option>
+                    <option value="cs:s">Counter-Strike: Source</option>
+                    <option value="cs1.6">Counter-Strike 1.6</option>
+                </select>
+            </div>
         </div>
-        <div id="game_selector">
-            <select aria-label="Выбор игры">
-                <option value="cs2">Counter-Strike 2</option>
-                <option value="cs:go">Counter-Strike: Global Offensive</option>
-                <option value="cs:s">Counter-Strike: Source</option>
-                <option value="cs1.6">Counter-Strike 1.6</option>
-            </select>
+        <!-- Центральная навигация -->
+        <nav class="main-nav" aria-label="Основная навигация">
+            <ul>
+                <li>
+                    <a href="#" class="nav-link" aria-label="Играть"><i class="fa-solid fa-play" style="color: rgb(139, 0, 0);"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" aria-label="Магазин"><i class="fa-solid fa-cart-shopping" style="color: rgb(139, 0, 0);"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" aria-label="Турниры"><i class="fa-solid fa-trophy" style="color: rgb(139, 0, 0);"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" aria-label="Сообщество"><i class="fa-solid fa-users" style="color: rgb(139, 0, 0);"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" aria-label="Настройки"><i class="fa-solid fa-gear" style="color: rgb(139, 0, 0);"></i></a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Правая навигация -->
+        <div class="header-right">
+            <div class="online-widget" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+                <span id="total-online">0</span>
+                <div id="online-dropdown" class="dropdown-hidden">
+                    <div class="dropdown-item"><span>CS2</span><span class="online-count">0</span></div>
+                    <div class="dropdown-item"><span>CS:GO</span><span class="online-count">0</span></div>
+                    <div class="dropdown-item"><span>CS:S</span><span class="online-count">0</span></div>
+                    <div class="dropdown-item"><span>CS 1.6</span><span class="online-count">0</span></div>
+                </div>
+            </div>
         </div>
-    </div>
-    <!-- Центральная навигация -->
-    <nav id="main_nav" aria-label="Основная навигация">
-        <ul>
-            <li>
-                <a href="#" class="nav-link" aria-label="Играть"><i class="fa-solid fa-play" style="color: rgb(139, 0, 0);"></i></a>
-            </li>
-            <li>
-                <a href="#" class="nav-link" aria-label="Магазин"><i class="fa-solid fa-cart-shopping" style="color: rgb(139, 0, 0);"></i></a>
-            </li>
-            <li>
-                <a href="#" class="nav-link" aria-label="Турниры"><i class="fa-solid fa-trophy" style="color: rgb(139, 0, 0);"></i></a>
-            </li>
-            <li>
-                <a href="#" class="nav-link" aria-label="Сообщество"><i class="fa-solid fa-users" style="color: rgb(139, 0, 0);"></i></a>
-            </li>
-            <li>
-                <a href="#" class="nav-link" aria-label="Настройки"><i class="fa-solid fa-gear" style="color: rgb(139, 0, 0);"></i></a>
-            </li>
-        </ul>
-    </nav>
-    <!-- Правая навигация -->
-    <div class="header-right">
-        <div id="game_online" class="online-widget" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
-            <span id="total-online">0</span>
-            <div id="online-dropdown" class="dropdown hidden">
-            <div class="dropdown-item"><span>CS2</span><span class="online-count">0</span></div>
-            <div class="dropdown-item"><span>CS:GO</span><span class="online-count">0</span></div>
-            <div class="dropdown-item"><span>CS:S</span><span class="online-count">0</span></div>
-            <div class="dropdown-item"><span>CS 1.6</span><span class="online-count">0</span></div>
+
+        <div id="balance" class="balance-widget">
+            <span>0.00 ₽ <i class="fas fa-plus-circle" style="color: red;"></i></span>
         </div>
-    </div>
 
-    <div id="balance" class="balance-widget">
-        <span>0.00 ₽ <i class="fas fa-plus-circle" style="color: rgb(139, 0, 0);"></i></span>
-    </div>
+        <div id="messages" class="icon-badge" role="button" tabindex="0" aria-label="Сообщения">
+            <i class="fa-solid fa-message" style="color: rgb(139, 0, 0);"></i>
+            <span id="message-counter" class="badge">0</span>
+        </div>
 
-    <div id="messages" class="icon-badge" role="button" tabindex="0" aria-label="Сообщения">
-        <i class="fa-solid fa-message" style="color: rgb(139, 0, 0);"></i>
-        <span id="message_counter" class="badge">0</span>
-    </div>
+        <div id="notifications" class="icon-badge" role="button" tabindex="0" aria-label="Уведомления">
+            <i class="fa-solid fa-bell" style="color: rgb(139, 0, 0);"></i>
+            <span id="notification-counter" class="badge">0</span>
+        </div>
 
-    <div id="notifications" class="icon-badge" role="button" tabindex="0" aria-label="Уведомления">
-        <i class="fa-solid fa-bell" style="color: rgb(139, 0, 0);"></i>
-        <span id="notification_counter" class="badge">0</span>
-    </div>
+        <div class="user-profile">
+            <img src="https://via.placeholder.com/36" alt="Аватар" class="avatar">
+            <span class="username">Player</span>
+        </div>
+    </header>
 
-    <div class="user-profile">
-        <img src="https://via.placeholder.com/36" alt="Аватар" class="avatar">
-        <span class="username">Player</span>
-    </div>
+    <hr class="header-divider">
 
+    <main class="site-content">
+        <p>Сервера в разработке...</p>
+    </main>
+
+    <script src="common.js"></script>
 </body>
 </html>
