@@ -10,21 +10,45 @@
 </head>
 <body>
     <header class="site-header">
+
         <!-- Левая навигация -->
+
         <div class="header-left">
             <div id="logo">
                 <p>First<span id="logodot">.</span></p>
             </div>
-            <div id="game-selector">
-                <select aria-label="Выбор игры">
-                    <option value="cs2">Counter-Strike 2</option>
-                    <option value="cs:go">Counter-Strike: Global Offensive</option>
-                    <option value="cs:s">Counter-Strike: Source</option>
-                    <option value="cs1.6">Counter-Strike 1.6</option>
-                </select>
+            <div id="game-selector" class="custom-select">
+                <div class="select-trigger">
+                    <span class="selected-text">CS 2</span>
+                    <i class="fa-solid fa-chevron-down arrow-icon"></i>
+                </div>
+                <div class="custom-options">
+                    <div class="option" data-value="cs2" style="background-image: url('../Elements/GameSelector/cs2.png');">
+                        <div class="option-overlay">
+                            <span>CS 2</span>
+                        </div>
+                    </div>
+                    <div class="option" data-value="csgo" style="background-image: url('../Elements/GameSelector/csgo.png');">
+                        <div class="option-overlay">
+                            <span>CS:GO</span>
+                        </div>
+                    </div>
+                    <div class="option" data-value="css" style="background-image: url('../Elements/GameSelector/cssource.png');">
+                        <div class="option-overlay">
+                            <span>CS: Source</span>
+                        </div>
+                    </div>
+                    <div class="option" data-value="cs16" style="background-image: url('../Elements/GameSelector/cs16.png');">
+                        <div class="option-overlay">
+                            <span>CS 1.6</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <!-- Центральная навигация -->
+
         <nav class="main-nav" aria-label="Основная навигация">
             <ul>
                 <li>
@@ -44,12 +68,14 @@
                 </li>
             </ul>
         </nav>
+
         <!-- Правая навигация -->
+
         <div class="header-right">
             <div class="online-widget" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
                 <span id="total-online">0</span>
                 <div id="online-dropdown" class="dropdown-hidden">
-                    <div class="dropdown-item"><span>CS2</span><span class="online-count">0</span></div>
+                    <div class="dropdown-item"><span>CS 2</span><span class="online-count">0</span></div>
                     <div class="dropdown-item"><span>CS:GO</span><span class="online-count">0</span></div>
                     <div class="dropdown-item"><span>CS:S</span><span class="online-count">0</span></div>
                     <div class="dropdown-item"><span>CS 1.6</span><span class="online-count">0</span></div>
