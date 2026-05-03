@@ -15,33 +15,34 @@
 
         <div class="header-left">
             <div id="logo">
-                <p>First<span id="logodot">.</span></p>
+                <a href="/"><p>First<span id="logodot">.</span></p></a>
             </div>
-            <div id="game-selector" class="custom-select">
-                <div class="select-trigger">
-                    <span class="selected-text">CS 2</span>
-                    <i class="fa-solid fa-chevron-down arrow-icon"></i>
+        </div>  
+        
+        <div id="game-selector" class="custom-select">
+            <div class="select-trigger">
+                <span class="selected-text">CS 2</span>
+                <i class="fa-solid fa-chevron-down arrow-icon"></i>
+            </div>
+            <div class="custom-options">
+                <div class="option" data-value="cs2" style="background-image: url('../Elements/GameSelector/cs2.png');">
+                    <div class="option-overlay">
+                        <span>CS 2</span>
+                    </div>
                 </div>
-                <div class="custom-options">
-                    <div class="option" data-value="cs2" style="background-image: url('../Elements/GameSelector/cs2.png');">
-                        <div class="option-overlay">
-                            <span>CS 2</span>
-                        </div>
+                <div class="option" data-value="csgo" style="background-image: url('../Elements/GameSelector/csgo.png');">
+                    <div class="option-overlay">
+                        <span>CS:GO</span>
                     </div>
-                    <div class="option" data-value="csgo" style="background-image: url('../Elements/GameSelector/csgo.png');">
-                        <div class="option-overlay">
-                            <span>CS:GO</span>
-                        </div>
+                </div>
+                <div class="option" data-value="css" style="background-image: url('../Elements/GameSelector/cssource.png');">
+                    <div class="option-overlay">
+                        <span>CS: Source</span>
                     </div>
-                    <div class="option" data-value="css" style="background-image: url('../Elements/GameSelector/cssource.png');">
-                        <div class="option-overlay">
-                            <span>CS: Source</span>
-                        </div>
-                    </div>
-                    <div class="option" data-value="cs16" style="background-image: url('../Elements/GameSelector/cs16.png');">
-                        <div class="option-overlay">
-                            <span>CS 1.6</span>
-                        </div>
+                </div>
+                <div class="option" data-value="cs16" style="background-image: url('../Elements/GameSelector/cs16.png');">
+                    <div class="option-overlay">
+                        <span>CS 1.6</span>
                     </div>
                 </div>
             </div>
@@ -52,19 +53,19 @@
         <nav class="main-nav" aria-label="Основная навигация">
             <ul>
                 <li>
-                    <a href="#" class="nav-link" aria-label="Играть"><i class="fa-solid fa-play"></i></a>
+                    <a href="/" class="nav-link" aria-label="Играть"><i class="fa-solid fa-play"></i></a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link" aria-label="Магазин"><i class="fa-solid fa-cart-shopping"></i></a>
+                    <a href="/shop" class="nav-link" aria-label="Магазин"><i class="fa-solid fa-cart-shopping"></i></a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link" aria-label="Турниры"><i class="fa-solid fa-trophy"></i></a>
+                    <a href="/leaderboard" class="nav-link" aria-label="Рейтинг"><i class="fa-solid fa-trophy"></i></a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link" aria-label="Сообщество"><i class="fa-solid fa-users"></i></a>
+                    <a href="/friends" class="nav-link" aria-label="Друзья"><i class="fa-solid fa-users"></i></a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link" aria-label="Настройки"><i class="fa-solid fa-gear"></i></a>
+                    <a href="/settings" class="nav-link" aria-label="Настройки"><i class="fa-solid fa-gear"></i></a>
                 </li>
             </ul>
         </nav>
@@ -83,12 +84,16 @@
             </div>
 
             <div id="balance" class="balance-widget">
-                <span>0.00 ₽ <i class="fas fa-plus-circle"></i></span>
+                <a href="/wallet">
+                    <span>0.00 ₽ <i class="fas fa-plus-circle"></i></span>
+                </a>
             </div>
 
             <div class="user-profile">
-                <img src="https://via.placeholder.com/36" alt="Аватар" class="avatar">
-                <span class="username">Player</span>
+                <a href="/profile">
+                    <img src="https://via.placeholder.com/36" alt="Аватар" class="avatar">
+                    <span class="username">Player</span>
+                </a>
             </div>
         </div>
     </header>
@@ -97,20 +102,36 @@
 
     <!-- Уведомления и сообщения -->
 
-    <div id="messages" class="icon-badge" role="button" tabindex="0" aria-label="Сообщения">
-        <i class="fa-solid fa-message"></i>
-        <span id="message-counter" class="badge">0</span>
+    <div class="icon-panel-container">
+        <div id="messages" class="icon-badge" role="button" tabindex="0" aria-label="Сообщения">
+            <i class="fa-solid fa-message"></i>
+            <span id="message-counter" class="badge">0</span>
+        </div>
+        <div id="messages-dropdown" class="dropdown-hidden panel-dropdown">
+            <div class="panel-header">Сообщения</div>
+            <div class="panel-content">
+                <p>Нет новых сообщений</p>
+            </div>
+        </div>
     </div>
 
-    <div id="notifications" class="icon-badge" role="button" tabindex="0" aria-label="Уведомления">
-        <i class="fa-solid fa-bell"></i>
-        <span id="notification-counter" class="badge">0</span>
+    <div class="icon-panel-container">
+        <div id="notifications" class="icon-badge" role="button" tabindex="0" aria-label="Уведомления">
+            <i class="fa-solid fa-bell"></i>
+            <span id="notification-counter" class="badge">0</span>
+        </div>
+        <div id="notifications-dropdown" class="dropdown-hidden panel-dropdown">
+            <div class="panel-header">Уведомления</div>
+            <div class="panel-content">
+                <p>Нет новых уведомлений</p>
+            </div>
+        </div>
     </div>
 
     <!-- Основная часть страницы -->
      
     <main class="site-content">
-        <p>Сервера в разработке...</p>
+        <p>Сервера совсем скоро!!!</p>
     </main>
 
     <script src="common.js"></script>
