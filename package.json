@@ -1,0 +1,25 @@
+{
+  "name": "first",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/INTICH082/First.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/INTICH082/First/issues"
+  },
+  "homepage": "https://github.com/INTICH082/First#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "pg": "^8.20.0"
+  }
+}
